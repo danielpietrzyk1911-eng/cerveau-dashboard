@@ -1,0 +1,14 @@
+{
+  "name": "cerveau-dashboard",
+  "version": "0.1.0",
+  "description": "Dashboard rétractable : mini graphe du second cerveau Obsidian et consommation de la fenêtre de 5 h",
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "vaultPath": {
+      "type": "string",
+      "title": "Dossier du coffre Obsidian",
+      "description": "Chemin absolu du coffre Obsidian (le dossier qui contient .obsidian)",
+      "default": ""
+    }
+  }
+}

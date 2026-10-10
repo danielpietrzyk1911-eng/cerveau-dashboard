@@ -1,0 +1,5 @@
+{
+  "name": "cerveau-dashboard",
+  "owner": { "name": "Daniel Pietrzyk" },
+  "plugins": [{ "name": "cerveau-dashboard", "source": "./" }]
+}
