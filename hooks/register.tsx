@@ -9,7 +9,7 @@ const limits = atom({ plugin: 'cerveau-dashboard', key: 'limits' } as const, [])
 const graph = atom({ plugin: 'cerveau-dashboard', key: 'graph' } as const, null)
 const isCollapsed = atom({ plugin: 'cerveau-dashboard', key: 'isCollapsed' } as const, false)
 
-const CANDIDATES = ['Obsidian', 'obsidian', 'vault', 'second-brain', 'SecondBrain', 'Notes']
+const CANDIDATES = ['/home/user/second_brain', 'second_brain', 'Obsidian', 'obsidian', 'vault', 'second-brain', 'SecondBrain', 'Notes']
 const MAX_NOTES = 600
 const LINK = /\[\[([^\]|#^]+)/g
 
