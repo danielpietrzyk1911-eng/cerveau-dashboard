@@ -8,6 +8,7 @@ const TITLE = 'Dashboard'
 const limits = atom({ plugin: 'cerveau-dashboard', key: 'limits' } as const, [])
 const graph = atom({ plugin: 'cerveau-dashboard', key: 'graph' } as const, null)
 const isCollapsed = atom({ plugin: 'cerveau-dashboard', key: 'isCollapsed' } as const, false)
+const isBandHidden = atom({ plugin: 'cerveau-dashboard', key: 'isBandHidden' } as const, false)
 
 const CANDIDATES = ['/home/user/second_brain', 'second_brain', 'Obsidian', 'obsidian', 'vault', 'second-brain', 'SecondBrain', 'Notes']
 const MAX_NOTES = 600
@@ -116,12 +117,35 @@ export const register: Register = (on, options) => {
     const panes = await $.ui.panes()
     if (panes.some(p => p.id === PANE)) {
       await $.ui.close({ id: PANE })
+      await update($, isBandHidden, () => true)
       return { text: 'Dashboard masqué. Tape /dashboard pour le rouvrir.' }
     }
+    await update($, isBandHidden, () => false)
     await open($)
     void refreshUsage($)
     void scan($, configured).then(g => update($, graph, () => g))
     return { text: 'Dashboard affiché.' }
+  })
+
+  on('ui.render', { component: 'AbovePrompt' }, async ($, e, next) => {
+    if (await read($, isBandHidden)) return next(e)
+    const { Box, Text, Button } = $.ui.resolve(e)
+    const five = (await read($, limits)).find(w => w.kind === 'five_hour')
+    const brain = await read($, graph)
+
+    return (
+      <Box flexDirection="row" gap={1}>
+        <Text>
+          🧠 {brain ? `${brain.notes} notes` : '—'} · 5 h {five ? `${bar(five.percentUsed, 8)} ${five.percentUsed}%` : '…'}
+        </Text>
+        <Button key="open" onPress={() => open($)}>
+          Dashboard
+        </Button>
+        <Button key="hide" role="dismiss" onPress={() => update($, isBandHidden, () => true)}>
+          ✕
+        </Button>
+      </Box>
+    )
   })
 
   on('ui.render', { component: 'Pane', requestId: PANE }, async ($, e) => {

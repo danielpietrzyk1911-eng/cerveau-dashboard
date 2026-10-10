@@ -4,6 +4,6 @@ export type Graph = { vault: string; notes: number; links: number; hubs: Hub[] }
 
 declare module 'claude-code' {
   interface PluginState {
-    'cerveau-dashboard': { limits: Limit[]; graph: Graph; isCollapsed: boolean }
+    'cerveau-dashboard': { limits: Limit[]; graph: Graph; isCollapsed: boolean; isBandHidden: boolean }
   }
 }
